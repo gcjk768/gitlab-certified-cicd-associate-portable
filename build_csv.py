@@ -40,6 +40,8 @@ def clean(s):
 
 
 def add(domain, question, opts, answer, expl, source):
+    # the last option of a markdown set ran on into the "---" between questions; the bots need one line per option
+    opts = {L: re.split(r"\n\s*-{3,}", v)[0].strip().replace("\n", " ") for L, v in opts.items()}
     key = re.sub(r"\W+", " ", question[:120].lower()).strip()
     answer = answer.replace(" ", "")
     if key in seen or len(question) < 15 or not answer or not all(opts.get(L) for L in answer.split(",")):
